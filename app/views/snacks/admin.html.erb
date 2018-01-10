@@ -1,1 +1,42 @@
-Coming Soon: Admin for Snack Signup Sheet.
+<%= javascript_tag do %>
+  window.dayClick = $.adminDayClick;
+<% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div id="calendar"></div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="add-date">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= form_tag update_snacks_path(params[:key]), method: :post do %>
+        <input type="hidden" name="admin_action" value="create" />
+        <input type="hidden" name="day" />
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Add Date</h4>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            Add <span class="friendly-day"></span> as an available day?
+          </p>
+
+          <div class="form-group">
+            <label for="existing-name">Signed Up By</label>
+            <input type="text" class="form-control" id="existing-name" placeholder="Name" name="existing_name">
+            <p class="help-block">Leave this blank if the day is still available.</p>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

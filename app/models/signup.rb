@@ -10,6 +10,10 @@ class Signup
   end
 
   def max
-    available_dates.last&.day || Time.zone.today
+    if available_dates.present?
+      available_dates.last.day + 1.day
+    else
+      Time.zone.today
+    end
   end
 end
