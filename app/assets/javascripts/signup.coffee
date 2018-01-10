@@ -7,6 +7,7 @@ $.adminDayClick = (day) ->
 $ ->
     $("#calendar").fullCalendar
         dayClick: window.dayClick
+        eventSources: window.eventSources
         validRange:
             start: window.minDate
             end: window.maxDate

@@ -1,5 +1,6 @@
 <%= javascript_tag do %>
   window.dayClick = $.adminDayClick;
+  window.eventSources = <%= @signup.to_admin_event_sources_json.html_safe %>;
 <% end %>
 
 <div class="row">

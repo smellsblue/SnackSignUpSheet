@@ -1,8 +1,36 @@
 class Signup
-  attr_reader :available_dates
-
   def initialize
-    @available_dates = AvailableDate.order(day: :asc).to_a
+  end
+
+  def available_dates
+    @available_dates ||= AvailableDate.where(name: nil).to_a
+  end
+
+  def unavailable_dates
+    @unavailable_dates ||= AvailableDate.where.not(name: nil).to_a
+  end
+
+  def to_admin_event_sources_json
+    [
+      {
+        events: available_dates.map do |date|
+          {
+            title: date.name.presence || "Available",
+            start: date.day.to_s
+          }
+        end,
+        color: "#337ab7"
+      },
+      {
+        events: unavailable_dates.map do |date|
+          {
+            title: date.name.presence,
+            start: date.day.to_s
+          }
+        end,
+        color: "#d9534f"
+      }
+    ].to_json
   end
 
   def min
