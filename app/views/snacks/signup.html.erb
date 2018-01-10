@@ -1,3 +1,8 @@
+<%= javascript_tag do %>
+  window.minDate = <%= @signup.min.to_s.to_json.html_safe %>;
+  window.maxDate = <%= @signup.max.to_s.to_json.html_safe %>;
+<% end %>
+
 <div class="row">
   <div class="col-xs-12">
     <div id="calendar"></div>
