@@ -10,6 +10,17 @@ class Signup
     @unavailable_dates ||= AvailableDate.where.not(name: nil).to_a
   end
 
+  def to_check_map_json
+    {}.tap do |result|
+      (available_dates + unavailable_dates).each do |date|
+        result[date.day.strftime("%Y-%m-%d")] = {
+          available: date.name.blank?,
+          name: date.name
+        }
+      end
+    end.to_json
+  end
+
   def to_admin_event_sources_json
     [
       {
@@ -19,6 +30,7 @@ class Signup
             start: date.day.to_s
           }
         end,
+        id: "available",
         color: "#337ab7"
       },
       {
@@ -28,6 +40,7 @@ class Signup
             start: date.day.to_s
           }
         end,
+        id: "unavailable",
         color: "#d9534f"
       }
     ].to_json
