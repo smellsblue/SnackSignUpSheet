@@ -15,3 +15,6 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require bootstrap-guards
+//= require moment
+//= require fullcalendar
+//= require signup
