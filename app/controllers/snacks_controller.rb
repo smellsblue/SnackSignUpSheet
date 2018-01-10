@@ -17,7 +17,9 @@ class SnacksController < ApplicationController
       admin.execute
       redirect_to snacks_path(params[:key]), flash: admin.flash
     elsif ENV["SNACKS_SIGNUP_KEY"].present? && params[:key] == ENV["SNACKS_SIGNUP_KEY"]
-      redirect_to snacks_path(params[:key])
+      signup = Signup.new(params)
+      signup.execute
+      redirect_to snacks_path(params[:key]), flash: signup.flash
     else
       redirect_to snacks_path(params[:key]), flash: { danger: "You do not have access to do that!" }
     end

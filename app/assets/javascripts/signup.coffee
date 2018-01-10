@@ -1,3 +1,11 @@
+$.signupDayClick = (day) ->
+    check = window.checkMap[day.format("YYYY-MM-DD")]
+    return if !check || !check.available
+    modal = $ "#signup"
+    modal.find("input[name='day']").val(day.format("YYYY-MM-DD"))
+    modal.find(".friendly-day").text(day.format("dddd, MMMM Do, YYYY"))
+    modal.modal("show")
+
 $.adminDayClick = (day) ->
     check = window.checkMap[day.format("YYYY-MM-DD")]
 
@@ -16,6 +24,9 @@ $.adminDayClick = (day) ->
 eventClick = (event) ->
     if window.dayClick
         window.dayClick(event.start)
+
+$(document).on "shown.bs.modal", ->
+    $(@).find(".to-focus").focus()
 
 $ ->
     $("#calendar").fullCalendar

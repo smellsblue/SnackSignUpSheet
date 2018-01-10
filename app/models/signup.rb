@@ -1,5 +1,8 @@
 class Signup
-  def initialize
+  attr_reader :params, :flash
+
+  def initialize(params = {})
+    @params = params
   end
 
   def available_dates
@@ -21,7 +24,7 @@ class Signup
     end.to_json
   end
 
-  def to_admin_event_sources_json
+  def to_event_sources_json
     [
       {
         events: available_dates.map do |date|
@@ -47,14 +50,38 @@ class Signup
   end
 
   def min
-    available_dates.first&.day || Time.zone.today
+    @min ||= AvailableDate.order(day: :asc).first&.day || Time.zone.today
   end
 
   def max
-    if available_dates.present?
-      available_dates.last.day + 1.day
+    @max ||=
+      begin
+        date = AvailableDate.order(day: :desc).first
+
+        if date.present?
+          date.day + 1.day
+        else
+          time.zone.today
+        end
+      end
+  end
+
+  def execute
+    case params[:signup_action]
+    when "signup"
+      signup!
     else
-      Time.zone.today
+      raise "Invalid action: #{params[:signup_action]}"
     end
+  end
+
+  def signup!
+    raise "You must provide a name!" unless params[:name].present?
+    date = AvailableDate.where(day: params[:day]).first
+    raise "That is not an existing date!" unless date.present?
+    raise "That date is already chosen!" if date.name.present?
+    date.name = params[:name].presence
+    date.save!
+    @flash = { success: "You successfully signed up for #{date.day.strftime("%A, %B #{date.day.day.ordinalize}, %Y")}" }
   end
 end

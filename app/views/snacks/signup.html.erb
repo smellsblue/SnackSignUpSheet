@@ -1,10 +1,56 @@
 <%= javascript_tag do %>
+  window.checkMap = <%= @signup.to_check_map_json.html_safe %>;
+  window.dayClick = $.signupDayClick;
+  window.eventSources = <%= @signup.to_event_sources_json.html_safe %>;
   window.minDate = <%= @signup.min.to_s.to_json.html_safe %>;
   window.maxDate = <%= @signup.max.to_s.to_json.html_safe %>;
 <% end %>
 
+<h1>Snack Signup Sheet</h1>
+
+<p>
+  To sign up to provide snacks on a day:
+  <ol>
+    <li>Click on the available day of your choice</li>
+    <li>Enter your name</li>
+    <li>Click the "Signup!" button</li>
+  </ol>
+</p>
+
 <div class="row">
   <div class="col-xs-12">
     <div id="calendar"></div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="signup">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= form_tag update_snacks_path(params[:key]), method: :post, data: { live_guarded: true } do %>
+        <input type="hidden" name="signup_action" value="signup" />
+        <input type="hidden" name="day" />
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Signup for Snacks</h4>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            Sign up for snacks on <span class="friendly-day"></span>?
+          </p>
+
+          <div class="form-group">
+            <label for="signup-name">Name</label>
+            <input type="text" class="form-control to-focus" id="signup-name" placeholder="Your Name" name="name" data-guard="required" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <input type="submit" value="Signup!" class="btn btn-primary" />
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

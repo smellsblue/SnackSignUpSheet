@@ -1,7 +1,7 @@
 <%= javascript_tag do %>
   window.checkMap = <%= @signup.to_check_map_json.html_safe %>;
   window.dayClick = $.adminDayClick;
-  window.eventSources = <%= @signup.to_admin_event_sources_json.html_safe %>;
+  window.eventSources = <%= @signup.to_event_sources_json.html_safe %>;
 <% end %>
 
 <div class="row">
@@ -29,7 +29,7 @@
 
           <div class="form-group">
             <label for="add-existing-name">Signed Up By</label>
-            <input type="text" class="form-control" id="add-existing-name" placeholder="Name" name="existing_name">
+            <input type="text" class="form-control to-focus" id="add-existing-name" placeholder="Name" name="existing_name" />
             <p class="help-block">Leave this blank if the day is still available.</p>
           </div>
         </div>
@@ -62,7 +62,7 @@
 
           <div class="form-group">
             <label for="edit-existing-name">Signed Up By</label>
-            <input type="text" class="form-control" id="edit-existing-name" placeholder="Name" name="existing_name">
+            <input type="text" class="form-control to-focus" id="edit-existing-name" placeholder="Name" name="existing_name" />
             <p class="help-block">Clear this field to make it available again.</p>
           </div>
         </div>
