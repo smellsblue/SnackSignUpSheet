@@ -61,7 +61,7 @@ class Signup
         if date.present?
           date.day + 1.day
         else
-          time.zone.today
+          Time.zone.today
         end
       end
   end
